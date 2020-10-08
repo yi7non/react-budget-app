@@ -14,23 +14,27 @@ const Interface = () => {
     const [cost, setCost] = useState('')
     
     const {budget, budgetDispatch} = useContext(BudgetContext)
+
     const addBudget = (e) => {
         e.preventDefault()
         category = category ? category : e.target.querySelectorAll('select')[1].options[0].value
 
-        const budgetExist = budget.some(obj => obj.category === category)
-        console.log(budgetExist);
+        const property = bType === 'תקציב' ? 'income' : 'expenses'
+        const budgetExist = budget[property].some(obj => obj.category === category)
+    
         if (budgetExist) {
             budgetDispatch({
                 type: 'UPDATE_BUDGET', 
                 budget: {bType, category, cost}
             })
         }
+        else {      
+            budgetDispatch({
+                type: 'ADD_BUDGET', 
+                budget: {bType, category, cost}
+            })
+        }
 
-        budgetDispatch({
-            type: 'ADD_BUDGET', 
-            budget: {bType, category, cost}
-        })
         setCost('')   
     }
 

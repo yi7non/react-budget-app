@@ -9,7 +9,7 @@ import CategoriesIncomes from './components/CategoriesIncomes'
 const App = () => {
 
   const [categories, categoriesDispatch] = useReducer(categoriesReducer, [])
-  const [budget, budgetDispatch] = useReducer(budgetReducer, [{income: [], expenses: []}])
+  const [budget, budgetDispatch] = useReducer(budgetReducer, {income: [], expenses: []})
 
   useEffect(() => {
 
