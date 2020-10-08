@@ -36,8 +36,8 @@ const App = () => {
   return (
     <BudgetContext.Provider value={{budget, budgetDispatch}}>
       <CategoriesContext.Provider value={{categories, categoriesDispatch}}>
-        <CategoriesIncomes budget={budget} />
         <Interface/>
+        <CategoriesIncomes budget={budget} />
       </CategoriesContext.Provider>
     </BudgetContext.Provider> 
   )

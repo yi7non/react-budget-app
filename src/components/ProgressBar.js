@@ -8,7 +8,9 @@ const Flex = styled.div`
     margin: 10px auto;
     padding: 0 10px;
     color: #FFF;
-    width: ${props => props.width ? props.width : 'auto'}
+    width: ${props => props.width ? props.width : 'auto'};
+    max-width: ${props => props.mw ? '70%' : 'none'};
+    transition: opacity .4s ease-in-out;
 `
 const Total = styled.div`
     background-color: ${props => props.bg};
@@ -42,13 +44,19 @@ const Bar = styled.div`
 `
 
 const ProgressBar = ({inc, exp, percentage}) => {
-    console.log(percentage)
+    const handleMouseOver = (e) => {
+         document.querySelectorAll('.progress-bar').forEach(pb => pb.style.opacity = ".5")
+         e.target.closest('.progress-bar').style.opacity = '1'
+    }
+    const handleMouseLeave = () => {
+        document.querySelectorAll('.progress-bar').forEach(pb => pb.style.opacity = "1")  
+    }
     return (
-        <Flex>
+        <Flex mw={true} className="progress-bar" onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}>
             <Progress width={percentage} text={exp}>
                 <Bar width={percentage}>₪{inc.cost - exp}</Bar>
             </Progress>
-            <Flex width="115px">
+            <Flex width="135px">
                 <Total>&nbsp;₪{inc.cost}</Total>&nbsp;<Total>{inc.category}</Total>
             </Flex>
         </Flex>
