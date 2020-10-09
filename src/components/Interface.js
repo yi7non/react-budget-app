@@ -32,8 +32,8 @@ const Input = styled.input`
     padding: 0;
     margin-right: 0;
 `
-const Button = styled.button`
-    font-size: 35px;
+export const Button = styled.button`
+    font-size: ${props => props.height || '40px'};
     background: none;
     border: none;
     color: #FFF;
@@ -89,7 +89,7 @@ const Interface = () => {
                 <Select options={types} setState={setBtype} state={bType}/>
                 {categories.length > 0 && <Select options={categories} setState={setCategory} state={category}/>}
                 <Input type="number" onChange={(e) => setCost(e.target.value)} value={cost} />
-                <Button bType={bType}><i class="ion-ios-checkmark-outline"></i></Button>
+                <Button bType={bType}><i className="ion-ios-checkmark-outline"></i></Button>
             </Form>
         </div>
     )

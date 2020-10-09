@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import {Button} from './Interface'
 
 const Flex = styled.div`
     display: flex;
@@ -30,7 +31,7 @@ const Progress = styled.div`
         top: 0;
         color: #FFF;
         right: ${props => (100 - props.width + props.width/2)}%;
-        content: '₪${props => props.text}';
+        content: '${props => (props.text > 0) && '₪' + props.text}';
         transition: all .7s ease-out; 
     }
 `
@@ -44,6 +45,7 @@ const Bar = styled.div`
 `
 
 const ProgressBar = ({inc, exp, percentage}) => {
+
     const handleMouseOver = (e) => {
          document.querySelectorAll('.progress-bar').forEach(pb => pb.style.opacity = ".5")
          e.target.closest('.progress-bar').style.opacity = '1'
@@ -51,13 +53,23 @@ const ProgressBar = ({inc, exp, percentage}) => {
     const handleMouseLeave = () => {
         document.querySelectorAll('.progress-bar').forEach(pb => pb.style.opacity = "1")  
     }
+
+    const btnEffect = {
+        width: 'auto',
+        maxWidth: '0',
+        opacity: '0',
+        visibility: 'hidden',
+        transition: 'all .7s ease-out'
+    }
     return (
         <Flex mw={true} className="progress-bar" onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}>
+            <Button style={btnEffect} height='20px'><i className="ion-ios-refresh-outline"></i></Button>
             <Progress width={percentage} text={exp}>
                 <Bar width={percentage}>₪{inc.cost - exp}</Bar>
             </Progress>
             <Flex width="135px">
                 <Total>&nbsp;₪{inc.cost}</Total>&nbsp;<Total>{inc.category}</Total>
+                <Button height='20px'><i className="ion-ios-close-outline"></i></Button>
             </Flex>
         </Flex>
     )
