@@ -2,10 +2,9 @@ import React from 'react'
 import ProgressBar from './ProgressBar'
 
 const CategoriesIncomes = ({budget}) => {
-
     return (
         <div>
-            {budget.income.length > 0 && budget.income.map(inc => {
+            {budget.incomes.length > 0 && budget.incomes.map(inc => {
              let percentage = 0   
              const expense = budget.expenses.find(exp => exp.category === inc.category)  
              if (expense) percentage = Math.round((expense.cost/inc.cost) * 100)

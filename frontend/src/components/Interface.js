@@ -8,7 +8,10 @@ import { useMutation, gql } from '@apollo/client';
 
 const INCOMES = gql`
 mutation createIncome($data: IncomeCreateInput!) {
-  createIncome(data: $data) {
+    createIncome(data: $data) {
+    id
+    bType
+    category
     cost
   }
 }
@@ -64,35 +67,34 @@ const Interface = () => {
     const {categories} = useContext(CategoriesContext)
 
     const [bType, setBtype] = useState('תקציב')
-    let [category, setCategory] = useState()
+    let [category, setCategory] = useState('')
     const [cost, setCost] = useState('')
 
     const [mutateIncoms, {data}] = useMutation(INCOMES)
-
-    if(data) {
-        console.log(data);
-    }
     
     const {budget, budgetDispatch} = useContext(BudgetContext)
 
     const addBudget = (e) => {
         e.preventDefault()
-        mutateIncoms({variables: {bType, category, cost}})
         category = category ? category : e.target.querySelectorAll('select')[1].options[0].value
+        mutateIncoms({variables: {
+            data: {bType, category, cost}
+        }})
 
-        const property = bType === 'תקציב' ? 'income' : 'expenses'
+        console.log(data);
+        const property = bType === 'תקציב' ? 'incomes' : 'expenses'
         const budgetExist = budget[property].some(obj => obj.category === category)
     
         if (budgetExist) {
             budgetDispatch({
                 type: 'UPDATE_BUDGET', 
-                budget: {bType, category, cost}
+                budget: data
             })
         }
         else {      
             budgetDispatch({
                 type: 'ADD_BUDGET', 
-                budget: {bType, category, cost}
+                budget: data
             })
         }
 

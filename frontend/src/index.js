@@ -5,17 +5,15 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 
-const client = new ApolloClient({
+export const client = new ApolloClient({
   uri: 'http://localhost:4000/',
   cache: new InMemoryCache()
 });
 
 ReactDOM.render(
-  <React.StrictMode>
     <ApolloProvider client={client}>
       <App />
-    </ApolloProvider>
-  </React.StrictMode>,
+    </ApolloProvider>,
   document.getElementById('root')
 );
 // rafce
