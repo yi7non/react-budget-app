@@ -4,6 +4,16 @@ import Select from './Select'
 import Categories from './Categories'
 import CategoriesContext from '../context/categories-context'
 import BudgetContext from '../context/budget-context'
+import { useMutation, gql } from '@apollo/client';
+
+const INCOMES = gql`
+mutation createIncome($data: IncomeCreateInput!) {
+  createIncome(data: $data) {
+    cost
+  }
+}
+    
+`
 
 const Form = styled.form`
     display: flex;
@@ -56,11 +66,18 @@ const Interface = () => {
     const [bType, setBtype] = useState('תקציב')
     let [category, setCategory] = useState()
     const [cost, setCost] = useState('')
+
+    const [mutateIncoms, {data}] = useMutation(INCOMES)
+
+    if(data) {
+        console.log(data);
+    }
     
     const {budget, budgetDispatch} = useContext(BudgetContext)
 
     const addBudget = (e) => {
         e.preventDefault()
+        mutateIncoms({variables: {bType, category, cost}})
         category = category ? category : e.target.querySelectorAll('select')[1].options[0].value
 
         const property = bType === 'תקציב' ? 'income' : 'expenses'

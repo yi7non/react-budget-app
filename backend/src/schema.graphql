@@ -1,0 +1,14 @@
+# import * from 'generated/prisma.graphql'
+
+type Query {
+    me: String! 
+    income(where: IncomeWhereUniqueInput!): Income
+    expense(where: ExpenseWhereUniqueInput!): Expense
+    incomes(where: IncomeWhereInput, orderBy: IncomeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Income]!
+    expenses(where: ExpenseWhereInput, orderBy: ExpenseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Expense]!
+}
+
+type Mutation {
+    createIncome(data: IncomeCreateInput!): Income!
+    createExpense(data: ExpenseCreateInput!): Expense!
+}

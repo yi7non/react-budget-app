@@ -1,0 +1,19 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prisma": "graphql get-schema -p prisma"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "graphql": "^0.13.2",
+    "graphql-cli": "^2.16.7",
+    "graphql-yoga": "^1.18.3",
+    "prisma-binding": "^2.3.16"
+  }
+}

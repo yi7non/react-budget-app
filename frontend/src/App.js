@@ -5,11 +5,13 @@ import budgetReducer from './reducers/budget'
 import CategoriesContext from './context/categories-context'
 import BudgetContext from './context/budget-context'
 import CategoriesIncomes from './components/CategoriesIncomes'
+// import { useQuery, gql } from '@apollo/client';
+
 
 const App = () => {
 
   const [categories, categoriesDispatch] = useReducer(categoriesReducer, [])
-  const [budget, budgetDispatch] = useReducer(budgetReducer, {income: [], expenses: []})
+  const [budget, budgetDispatch] = useReducer(budgetReducer, {income: [{bType: 'test', category: 'testcategory', cost: 0}], expenses: []})
 
   useEffect(() => {
 
@@ -28,10 +30,6 @@ const App = () => {
   useEffect(() => {
     localStorage.setItem('categories', JSON.stringify(categories))
   }, [categories])
-
-  useEffect(() => {
-    localStorage.setItem('budget', JSON.stringify(budget))
-  }, [budget])
 
   return (
     <BudgetContext.Provider value={{budget, budgetDispatch}}>

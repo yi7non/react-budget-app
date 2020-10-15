@@ -59,7 +59,6 @@ const ProgressBar = ({inc, exp, percentage}) => {
         maxWidth: '0',
         opacity: '0',
         visibility: 'hidden',
-        transition: 'all .7s ease-out'
     }
     return (
         <Flex mw={true} className="progress-bar" onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}>
