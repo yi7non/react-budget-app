@@ -6,16 +6,33 @@ import CategoriesContext from '../context/categories-context'
 import BudgetContext from '../context/budget-context'
 import { useMutation, gql } from '@apollo/client';
 
-const INCOMES = gql`
+const ADD_INCOMES = gql`
 mutation createIncome($data: IncomeCreateInput!) {
     createIncome(data: $data) {
-    id
     bType
     category
     cost
   }
+}  
+`
+const ADD_EXPENSES = gql`
+mutation createExpense($data: ExpenseCreateInput!) {
+    createExpense(data: $data) {
+        bType
+        category
+        cost
+    }
 }
-    
+`
+
+const UPDATE_INCOMES = gql`
+mutation updateIncome($data: IncomeUpdateInput!, $where: IncomeWhereUniqueInput!) {
+    updateIncome(data: $data, where: $where) {
+    bType
+    category
+    cost
+  }
+}  
 `
 
 const Form = styled.form`
@@ -70,32 +87,52 @@ const Interface = () => {
     let [category, setCategory] = useState('')
     const [cost, setCost] = useState('')
 
-    const [mutateIncoms, {data}] = useMutation(INCOMES)
+    const [createIncome, {createData}] = useMutation(ADD_INCOMES)
+    const [updateIncome, {updateData}] = useMutation(UPDATE_INCOMES)
+    const [createExpense] = useMutation(ADD_EXPENSES)
     
     const {budget, budgetDispatch} = useContext(BudgetContext)
 
     const addBudget = (e) => {
         e.preventDefault()
         category = category ? category : e.target.querySelectorAll('select')[1].options[0].value
-        mutateIncoms({variables: {
-            data: {bType, category, cost}
-        }})
 
-        console.log(data);
         const property = bType === 'תקציב' ? 'incomes' : 'expenses'
         const budgetExist = budget[property].some(obj => obj.category === category)
     
         if (budgetExist) {
+            
             budgetDispatch({
                 type: 'UPDATE_BUDGET', 
-                budget: data
+                budget: {bType, category, cost}
             })
+
+            updateIncome({variables: {
+                data: {bType, cost},
+                where: {category}
+            }})
+
         }
-        else {      
+        
+        else {    
+             
             budgetDispatch({
                 type: 'ADD_BUDGET', 
-                budget: data
+                budget: {bType, category, cost}
             })
+
+            
+            if (property === 'incomes') {
+                createIncome({variables: {
+                    data: {bType, category, cost}
+                }})
+            } else {
+                createExpense({variables: {
+                    data: {bType, category, cost}
+                }})
+            }
+
+             
         }
 
         setCost('')   

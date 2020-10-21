@@ -10,5 +10,6 @@ type Query {
 
 type Mutation {
     createIncome(data: IncomeCreateInput!): Income!
+    updateIncome(data: IncomeUpdateInput!, where: IncomeWhereUniqueInput!): Income
     createExpense(data: ExpenseCreateInput!): Expense!
 }

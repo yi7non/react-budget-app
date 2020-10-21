@@ -4,15 +4,13 @@ type User {
 }
 
 type Income {
-  id: ID! @id
-  bType: String!
-  category: String!
-  cost: Float!
-}
-
-type Expense {
-  id: ID! @id
-  bType: String!
-  category: String!
-  cost: Float!
-}
+    bType: String!
+    category: ID! @id 
+    cost: Float!
+  }
+  
+  type Expense {
+    bType: String!
+    category: ID! @id
+    cost: Float!
+  }

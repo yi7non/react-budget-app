@@ -9,7 +9,7 @@ import { useQuery, gql } from '@apollo/client';
 
 const POPULATE_BUDGET = gql`
   query populate_budget {
-      incomes {
+    incomes {
       bType
       category
       cost
@@ -24,8 +24,8 @@ const POPULATE_BUDGET = gql`
 
 const App = () => {
 
-  const [categories, categoriesDispatch] = useReducer(categoriesReducer, [])
-  const [budget, budgetDispatch] = useReducer(budgetReducer)
+  const [categories, categoriesDispatch] = useReducer(categoriesReducer)
+  const [budget, budgetDispatch] = useReducer(budgetReducer, {incomes:[], expenses:[]})
 
   useEffect(() => {
 
@@ -40,13 +40,12 @@ const App = () => {
     localStorage.setItem('categories', JSON.stringify(categories))
   }, [categories])
 
-  const { loading, error, data } = useQuery(POPULATE_BUDGET)
+  const { loading, data } = useQuery(POPULATE_BUDGET)
 
   let dispatched = false
   useEffect(() => {
     if (!dispatched && data) {
-      const budget = data
-      budgetDispatch({type: 'POPULATE_BUDGET', budget})
+      budgetDispatch({type: 'POPULATE_BUDGET', budget: data})
       dispatched = true
     }
   }, [data])
@@ -57,7 +56,7 @@ const App = () => {
     <BudgetContext.Provider value={{budget, budgetDispatch}}>
       <CategoriesContext.Provider value={{categories, categoriesDispatch}}>
         <Interface/>
-        <CategoriesIncomes budget={data} />
+        <CategoriesIncomes budget={budget} />
       </CategoriesContext.Provider>
     </BudgetContext.Provider> 
   )

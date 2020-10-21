@@ -1,5 +1,5 @@
 # source: http://localhost:4466/
-# timestamp: Sun Oct 11 2020 00:41:40 GMT+0300 (GMT+03:00)
+# timestamp: Sun Oct 18 2020 08:26:11 GMT+0300 (GMT+03:00)
 
 type AggregateExpense {
   count: Int!
@@ -18,10 +18,9 @@ type BatchPayload {
   count: Long!
 }
 
-type Expense implements Node {
-  id: ID!
+type Expense {
   bType: String!
-  category: String!
+  category: ID!
   cost: Float!
 }
 
@@ -36,9 +35,8 @@ type ExpenseConnection {
 }
 
 input ExpenseCreateInput {
-  id: ID
   bType: String!
-  category: String!
+  category: ID
   cost: Float!
 }
 
@@ -52,8 +50,6 @@ type ExpenseEdge {
 }
 
 enum ExpenseOrderByInput {
-  id_ASC
-  id_DESC
   bType_ASC
   bType_DESC
   category_ASC
@@ -63,9 +59,8 @@ enum ExpenseOrderByInput {
 }
 
 type ExpensePreviousValues {
-  id: ID!
   bType: String!
-  category: String!
+  category: ID!
   cost: Float!
 }
 
@@ -110,13 +105,11 @@ input ExpenseSubscriptionWhereInput {
 
 input ExpenseUpdateInput {
   bType: String
-  category: String
   cost: Float
 }
 
 input ExpenseUpdateManyMutationInput {
   bType: String
-  category: String
   cost: Float
 }
 
@@ -129,46 +122,6 @@ input ExpenseWhereInput {
 
   """Logical NOT on all given filters combined by AND."""
   NOT: [ExpenseWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
   bType: String
 
   """All values that are not equal to given value."""
@@ -209,46 +162,46 @@ input ExpenseWhereInput {
 
   """All values not ending with the given string."""
   bType_not_ends_with: String
-  category: String
+  category: ID
 
   """All values that are not equal to given value."""
-  category_not: String
+  category_not: ID
 
   """All values that are contained in given list."""
-  category_in: [String!]
+  category_in: [ID!]
 
   """All values that are not contained in given list."""
-  category_not_in: [String!]
+  category_not_in: [ID!]
 
   """All values less than the given value."""
-  category_lt: String
+  category_lt: ID
 
   """All values less than or equal the given value."""
-  category_lte: String
+  category_lte: ID
 
   """All values greater than the given value."""
-  category_gt: String
+  category_gt: ID
 
   """All values greater than or equal the given value."""
-  category_gte: String
+  category_gte: ID
 
   """All values containing the given string."""
-  category_contains: String
+  category_contains: ID
 
   """All values not containing the given string."""
-  category_not_contains: String
+  category_not_contains: ID
 
   """All values starting with the given string."""
-  category_starts_with: String
+  category_starts_with: ID
 
   """All values not starting with the given string."""
-  category_not_starts_with: String
+  category_not_starts_with: ID
 
   """All values ending with the given string."""
-  category_ends_with: String
+  category_ends_with: ID
 
   """All values not ending with the given string."""
-  category_not_ends_with: String
+  category_not_ends_with: ID
   cost: Float
 
   """All values that are not equal to given value."""
@@ -274,13 +227,12 @@ input ExpenseWhereInput {
 }
 
 input ExpenseWhereUniqueInput {
-  id: ID
+  category: ID
 }
 
-type Income implements Node {
-  id: ID!
+type Income {
   bType: String!
-  category: String!
+  category: ID!
   cost: Float!
 }
 
@@ -295,9 +247,8 @@ type IncomeConnection {
 }
 
 input IncomeCreateInput {
-  id: ID
   bType: String!
-  category: String!
+  category: ID
   cost: Float!
 }
 
@@ -311,8 +262,6 @@ type IncomeEdge {
 }
 
 enum IncomeOrderByInput {
-  id_ASC
-  id_DESC
   bType_ASC
   bType_DESC
   category_ASC
@@ -322,9 +271,8 @@ enum IncomeOrderByInput {
 }
 
 type IncomePreviousValues {
-  id: ID!
   bType: String!
-  category: String!
+  category: ID!
   cost: Float!
 }
 
@@ -369,13 +317,11 @@ input IncomeSubscriptionWhereInput {
 
 input IncomeUpdateInput {
   bType: String
-  category: String
   cost: Float
 }
 
 input IncomeUpdateManyMutationInput {
   bType: String
-  category: String
   cost: Float
 }
 
@@ -388,46 +334,6 @@ input IncomeWhereInput {
 
   """Logical NOT on all given filters combined by AND."""
   NOT: [IncomeWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
   bType: String
 
   """All values that are not equal to given value."""
@@ -468,46 +374,46 @@ input IncomeWhereInput {
 
   """All values not ending with the given string."""
   bType_not_ends_with: String
-  category: String
+  category: ID
 
   """All values that are not equal to given value."""
-  category_not: String
+  category_not: ID
 
   """All values that are contained in given list."""
-  category_in: [String!]
+  category_in: [ID!]
 
   """All values that are not contained in given list."""
-  category_not_in: [String!]
+  category_not_in: [ID!]
 
   """All values less than the given value."""
-  category_lt: String
+  category_lt: ID
 
   """All values less than or equal the given value."""
-  category_lte: String
+  category_lte: ID
 
   """All values greater than the given value."""
-  category_gt: String
+  category_gt: ID
 
   """All values greater than or equal the given value."""
-  category_gte: String
+  category_gte: ID
 
   """All values containing the given string."""
-  category_contains: String
+  category_contains: ID
 
   """All values not containing the given string."""
-  category_not_contains: String
+  category_not_contains: ID
 
   """All values starting with the given string."""
-  category_starts_with: String
+  category_starts_with: ID
 
   """All values not starting with the given string."""
-  category_not_starts_with: String
+  category_not_starts_with: ID
 
   """All values ending with the given string."""
-  category_ends_with: String
+  category_ends_with: ID
 
   """All values not ending with the given string."""
-  category_not_ends_with: String
+  category_not_ends_with: ID
   cost: Float
 
   """All values that are not equal to given value."""
@@ -533,7 +439,7 @@ input IncomeWhereInput {
 }
 
 input IncomeWhereUniqueInput {
-  id: ID
+  category: ID
 }
 
 """Raw JSON value"""
