@@ -11,5 +11,8 @@ type Query {
 type Mutation {
     createIncome(data: IncomeCreateInput!): Income!
     updateIncome(data: IncomeUpdateInput!, where: IncomeWhereUniqueInput!): Income
+    updateExpense(data: ExpenseUpdateInput!, where: ExpenseWhereUniqueInput!): Expense
+    deleteIncome(where: IncomeWhereUniqueInput!): Income
     createExpense(data: ExpenseCreateInput!): Expense!
+    deleteExpense(where: ExpenseWhereUniqueInput!): Expense
 }

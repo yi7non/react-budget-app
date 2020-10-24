@@ -1,4 +1,6 @@
-import React from 'react'
+import React, {useContext} from 'react'
+import { useMutation, gql } from '@apollo/client';
+import BudgetContext from '../context/budget-context'
 import styled from 'styled-components'
 import {Button} from './Interface'
 
@@ -12,6 +14,19 @@ const Flex = styled.div`
     width: ${props => props.width ? props.width : 'auto'};
     max-width: ${props => props.mw ? '70%' : 'none'};
     transition: opacity .4s ease-in-out;
+    &.text-container {
+        transform: translateX(45px);
+        background-color: transparent;
+        transition: all .7s ease;
+    }
+    &.progress-bar:hover .text-container {
+        transform: translateX(0);
+    }
+    &.progress-bar:hover span {
+        transition: all .9 ease-in-out;
+        visibility: visible;
+        opacity: 1;
+    }
 `
 const Total = styled.div`
     background-color: ${props => props.bg};
@@ -43,8 +58,33 @@ const Bar = styled.div`
     color: #FFF;
     transition: all .7s ease-out;
 `
-
+const SPAN = styled.span`
+    transform: translateX(10px);
+    visibility: hidden;
+    opacity: 0;
+    transition: all .9 ease-in-out;
+`
+const DELETE_INCOME = gql`
+mutation deleteIncome($where:  IncomeWhereUniqueInput!) {
+    deleteIncome(where: $where) {
+        category
+    }
+}
+`
 const ProgressBar = ({inc, exp, percentage}) => {
+
+    const [deleteIncom] = useMutation(DELETE_INCOME)
+    const {budgetDispatch} = useContext(BudgetContext)
+
+    const del = category => {
+        budgetDispatch({
+            type: 'DELETE_BUDGET', 
+            budget: category
+        })
+        deleteIncom({variables: {
+        where: {category}
+    }}
+    )}
 
     const handleMouseOver = (e) => {
          document.querySelectorAll('.progress-bar').forEach(pb => pb.style.opacity = ".5")
@@ -66,9 +106,9 @@ const ProgressBar = ({inc, exp, percentage}) => {
             <Progress width={percentage} text={exp}>
                 <Bar width={percentage}>₪{inc.cost - exp}</Bar>
             </Progress>
-            <Flex width="135px">
+            <Flex className="text-container" width="135px">
                 <Total>&nbsp;₪{inc.cost}</Total>&nbsp;<Total>{inc.category}</Total>
-                <Button height='20px'><i className="ion-ios-close-outline"></i></Button>
+                <SPAN><Button onClick={()=> del(inc.category)} height='20px'><i className="ion-ios-close-outline"></i></Button></SPAN>
             </Flex>
         </Flex>
     )

@@ -15,6 +15,7 @@ mutation createIncome($data: IncomeCreateInput!) {
   }
 }  
 `
+
 const ADD_EXPENSES = gql`
 mutation createExpense($data: ExpenseCreateInput!) {
     createExpense(data: $data) {
@@ -115,13 +116,11 @@ const Interface = () => {
         }
         
         else {    
-             
             budgetDispatch({
                 type: 'ADD_BUDGET', 
                 budget: {bType, category, cost}
             })
 
-            
             if (property === 'incomes') {
                 createIncome({variables: {
                     data: {bType, category, cost}
@@ -131,7 +130,6 @@ const Interface = () => {
                     data: {bType, category, cost}
                 }})
             }
-
              
         }
 

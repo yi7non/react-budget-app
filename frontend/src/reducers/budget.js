@@ -1,6 +1,6 @@
 
 export default (state, action) => {
-    
+
     switch(action.type) {
         case 'POPULATE_BUDGET':
             return action.budget
@@ -21,8 +21,16 @@ export default (state, action) => {
                 incomes: state.incomes.map(income => Object.assign({}, income)),
                 expenses: state.expenses.map(expense => Object.assign({}, expense))
             }
-            updateState[updateProperty][index].cost = action.budget.cost
+            
+            updateState[updateProperty][index].cost = updateProperty === 'incomes' ? action.budget.cost : parseInt(updateState[updateProperty][index].cost) + parseInt(action.budget.cost)
             return updateState
+
+        case 'DELETE_BUDGET':
+            const deleteState = {
+                incomes: state.incomes.filter(income => income.category !== action.budget),
+                expenses: state.expenses.filter(expense => expense.category !== action.budget)
+                }
+            return deleteState
             
         default:
             return state
