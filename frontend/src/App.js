@@ -1,11 +1,9 @@
-import React, {useReducer, useEffect} from 'react'
-import Interface from './components/Interface'
+import React, { useReducer, useEffect } from 'react'
+import { useQuery, gql } from '@apollo/client';
 import categoriesReducer from './reducers/categories'
 import budgetReducer from './reducers/budget'
-import CategoriesContext from './context/categories-context'
-import BudgetContext from './context/budget-context'
+import Interface from './components/Interface'
 import CategoriesIncomes from './components/CategoriesIncomes'
-import { useQuery, gql } from '@apollo/client';
 
 const POPULATE_BUDGET = gql`
   query populate_budget {
@@ -22,18 +20,19 @@ const POPULATE_BUDGET = gql`
   }
 `;
 
-const App = () => {
+export const BudgetContext = React.createContext()
+export const CategoriesContext = React.createContext()
 
-  const [categories, categoriesDispatch] = useReducer(categoriesReducer)
-  const [budget, budgetDispatch] = useReducer(budgetReducer, {incomes:[], expenses:[]})
+function App() {
+  
+  const [categories, dispatchCategories] = useReducer(categoriesReducer, [])
+  const [budget, dispatchBudget] = useReducer(budgetReducer, {incomes:[], expenses:[]})
 
   useEffect(() => {
-
     const categories = JSON.parse(localStorage.getItem('categories'))
     if (categories) {
-      categoriesDispatch({type: 'POPULATE_CATEGORIES', categories})
+      dispatchCategories({type: 'POPULATE_CATEGORIES', categories})
     }
-
   }, [])
  
   useEffect(() => {
@@ -42,10 +41,10 @@ const App = () => {
 
   const { loading, data } = useQuery(POPULATE_BUDGET)
 
-  let dispatched = false
   useEffect(() => {
+    let dispatched = false
     if (!dispatched && data) {
-      budgetDispatch({type: 'POPULATE_BUDGET', budget: data})
+      dispatchBudget({type: 'POPULATE_BUDGET', budget: data})
       dispatched = true
     }
   }, [data])
@@ -53,11 +52,11 @@ const App = () => {
   if (loading) return <p>Loading ...</p>
 
   return (
-    <BudgetContext.Provider value={{budget, budgetDispatch}}>
-      <CategoriesContext.Provider value={{categories, categoriesDispatch}}>
-        <Interface/>
-        <CategoriesIncomes budget={budget} />
-      </CategoriesContext.Provider>
+    <BudgetContext.Provider value={{budget, dispatchBudget}}>
+    <CategoriesContext.Provider value={{categories, dispatchCategories}}>
+      <Interface/>
+      <CategoriesIncomes budget={budget} />
+    </CategoriesContext.Provider>
     </BudgetContext.Provider> 
   )
 }

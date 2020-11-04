@@ -1,8 +1,8 @@
-import React, {useContext} from 'react'
+import React, { useContext } from 'react'
 import { useMutation, gql } from '@apollo/client';
-import BudgetContext from '../context/budget-context'
+import { BudgetContext } from '../App'
 import styled from 'styled-components'
-import {Button} from './Interface'
+import { Button } from './Form'
 
 const Flex = styled.div`
     display: flex;
@@ -74,10 +74,10 @@ mutation deleteIncome($where:  IncomeWhereUniqueInput!) {
 const ProgressBar = ({inc, exp, percentage}) => {
 
     const [deleteIncom] = useMutation(DELETE_INCOME)
-    const {budgetDispatch} = useContext(BudgetContext)
+    const {dispatchBudget} = useContext(BudgetContext)
 
     const del = category => {
-        budgetDispatch({
+        dispatchBudget({
             type: 'DELETE_BUDGET', 
             budget: category
         })
