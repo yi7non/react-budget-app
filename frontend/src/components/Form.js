@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { CategoriesContext } from '../App'
 import { BudgetContext } from '../App' 
 import Select from './Select'
-import categoryInputRef from './Categories'
 
 const ADD_INCOMES = gql`
 mutation createIncome($data: IncomeCreateInput!) {
@@ -86,11 +85,12 @@ function Form(props, ref) {
     const [updateIncome] = useMutation(UPDATE_INCOMES)
     const [createExpense] = useMutation(ADD_EXPENSES)
     
-    const {budget, dispachBudget} = useContext(BudgetContext)
+    const {budget, dispatchBudget} = useContext(BudgetContext)
     const {categories} = useContext(CategoriesContext)
 
     const addBudget = (e) => {
         e.preventDefault()
+        console.log(ref.current);
         // category = category ? category : e.target.querySelectorAll('select')[1].options[0].value
         category = category ? category : ref.current.value
         const property = bType === 'תקציב' ? 'incomes' : 'expenses'
@@ -98,7 +98,7 @@ function Form(props, ref) {
     
         if (budgetExist) {
             
-            dispachBudget({
+            dispatchBudget({
                 type: 'UPDATE_BUDGET', 
                 budget: {bType, category, cost}
             })
@@ -111,7 +111,7 @@ function Form(props, ref) {
         }
         
         else {    
-            dispachBudget({
+            dispatchBudget({
                 type: 'ADD_BUDGET', 
                 budget: {bType, category, cost}
             })
