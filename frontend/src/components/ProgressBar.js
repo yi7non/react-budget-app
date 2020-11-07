@@ -12,10 +12,12 @@ const Flex = styled.div`
     padding: 0 10px;
     color: #FFF;
     width: ${props => props.width ? props.width : 'auto'};
-    max-width: ${props => props.mw ? '70%' : 'none'};
+    @media (min-width: 420px) {
+        max-width: ${props => props.mw ? '70%' : 'none'};
+    }
     transition: opacity .4s ease-in-out;
     &.text-container {
-        transform: translateX(45px);
+        transform: translateX(22px);
         background-color: transparent;
         transition: all .7s ease;
     }
@@ -29,6 +31,8 @@ const Flex = styled.div`
     }
 `
 const Total = styled.div`
+    padding-right: 5px;
+    font-size: 16px;
     background-color: ${props => props.bg};
     color: ${props => props.color};
 `
@@ -71,7 +75,7 @@ mutation deleteIncome($where:  IncomeWhereUniqueInput!) {
     }
 }
 `
-const ProgressBar = ({inc, exp, percentage}) => {
+function ProgressBar({inc, exp, percentage}) {
 
     const [deleteIncom] = useMutation(DELETE_INCOME)
     const {dispatchBudget} = useContext(BudgetContext)
@@ -90,6 +94,7 @@ const ProgressBar = ({inc, exp, percentage}) => {
          document.querySelectorAll('.progress-bar').forEach(pb => pb.style.opacity = ".5")
          e.target.closest('.progress-bar').style.opacity = '1'
     }
+    
     const handleMouseLeave = () => {
         document.querySelectorAll('.progress-bar').forEach(pb => pb.style.opacity = "1")  
     }
@@ -107,7 +112,8 @@ const ProgressBar = ({inc, exp, percentage}) => {
                 <Bar width={percentage}>₪{inc.cost - exp}</Bar>
             </Progress>
             <Flex className="text-container" width="135px">
-                <Total>&nbsp;₪{inc.cost}</Total>&nbsp;<Total>{inc.category}</Total>
+                <Total>₪{inc.cost}</Total>
+                <Total>{inc.category}</Total>
                 <SPAN><Button onClick={()=> del(inc.category)} height='20px'><i className="ion-ios-close-outline"></i></Button></SPAN>
             </Flex>
         </Flex>

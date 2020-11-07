@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useRef } from 'react'
 import { useMutation, gql } from '@apollo/client';
 import styled from 'styled-components'
 import { CategoriesContext } from '../App'
@@ -50,7 +50,7 @@ const FormElement = styled.form`
 `
 const Input = styled.input`
     outline: none;
-    height: 50%;
+    height: 55%;
     width: 100px;
     text-align: left;
     font-size: 20px;
@@ -68,31 +68,29 @@ export const Button = styled.button`
     display: inline-block;
     vertical-align: middle;
     line-height: 1.1;
-    margin-left: 10px;
     transition: all .4s;
     &:hover {
         color: ${props => props.bType === 'תקציב' ? 'lime' : 'red'};
     }
 `
 
-function Form(props, ref) {
-    
-    const [bType, setBtype] = useState('תקציב')
-    let [category, setCategory] = useState('')
-    const [cost, setCost] = useState('')
+function Form() {
+    const categoryRef = useRef(null)
 
     const [createIncome] = useMutation(ADD_INCOMES)
     const [updateIncome] = useMutation(UPDATE_INCOMES)
     const [createExpense] = useMutation(ADD_EXPENSES)
+
+    const [bType, setbType] = useState('תקציב')
+      let [category, setCategory] = useState('')
+    const [cost, setCost] = useState('')
     
-    const {budget, dispatchBudget} = useContext(BudgetContext)
-    const {categories} = useContext(CategoriesContext)
+    const { budget, dispatchBudget } = useContext(BudgetContext)
+    const { categories } = useContext(CategoriesContext)
 
     const addBudget = (e) => {
         e.preventDefault()
-        console.log(ref.current);
-        // category = category ? category : e.target.querySelectorAll('select')[1].options[0].value
-        category = category ? category : ref.current.value
+        category = category ? category : categoryRef.current.value
         const property = bType === 'תקציב' ? 'incomes' : 'expenses'
         const budgetExist = budget[property].some(obj => obj.category === category)
     
@@ -132,13 +130,13 @@ function Form(props, ref) {
     }
 
     return (
-        <FormElement onSubmit={addBudget} style={{marginTop: "160px", marginBottom: '60px'}}>
-            <Select options={["תקציב", "הוצאות"]} setState={setBtype} state={bType}/>
-            {categories.length > 0 && <Select options={categories} setState={setCategory} state={category}/>}
+        <FormElement onSubmit={addBudget}>
+            <Select options={["תקציב", "הוצאות"]} setState={setbType} state={bType}/>
+            {categories.length > 0 && <Select ref={categoryRef} options={categories} setState={setCategory} state={category}/>}
             <Input type="number" onChange={(e) => setCost(e.target.value)} value={cost} />
             <Button bType={bType}><i className="ion-ios-checkmark-outline"></i></Button>
         </FormElement>
     )
 }
 
-export default React.forwardRef(Form)
+export default Form

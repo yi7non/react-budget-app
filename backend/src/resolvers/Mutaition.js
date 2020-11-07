@@ -7,9 +7,6 @@ const Mutaition = {
     },
     async createExpense(parent, args, { prisma }, info) {
         const prevExpense = await prisma.query.expense({where: {category: args.data.category}}, '{cost}')
-        console.log("********************************");
-        console.log(args.data.cost, args.data.category);
-        console.log("********************************");
         if(prevExpense) {
             args.data.cost = parseInt(args.data.cost) + parseInt(prevExpense.cost)
             return prisma.mutation.updateExpense({data: {bType: args.data.bType, cost: args.data.cost}, where: {category: args.data.category}})

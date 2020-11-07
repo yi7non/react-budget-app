@@ -1,14 +1,20 @@
-import React, {useRef} from 'react'
+import React from 'react'
 import Form from './Form'
 import Categories from './Categories'
+import Salary from './Salary'
+import '../style/interface.css'
 
 function Interface() {
-    const categoryInputRef = useRef(null)
     return (
-        <div>
-            <Categories ref={categoryInputRef}/>
-            <Form ref={categoryInputRef}/>
-        </div>
+        <div className="interface-container">
+            <div>
+                <Salary/>
+            </div>
+            <div>
+                <Categories/>
+                <Form/>
+            </div>
+        </div> 
     )
 }
 

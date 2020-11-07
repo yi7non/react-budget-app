@@ -3,7 +3,7 @@ import { useQuery, gql } from '@apollo/client';
 import categoriesReducer from './reducers/categories'
 import budgetReducer from './reducers/budget'
 import Interface from './components/Interface'
-import CategoriesIncomes from './components/CategoriesIncomes'
+import Panels from './components/Panels'
 
 const POPULATE_BUDGET = gql`
   query populate_budget {
@@ -55,7 +55,7 @@ function App() {
     <BudgetContext.Provider value={{budget, dispatchBudget}}>
     <CategoriesContext.Provider value={{categories, dispatchCategories}}>
       <Interface/>
-      <CategoriesIncomes budget={budget} />
+      <Panels budget={budget} />
     </CategoriesContext.Provider>
     </BudgetContext.Provider> 
   )
