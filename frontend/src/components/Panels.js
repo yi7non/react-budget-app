@@ -2,15 +2,13 @@ import React from 'react'
 import ProgressBar from './ProgressBar'
 
 const Panels = ({budget}) => {
+    
     // remove salary from budget-array
-    if (budget.incomes.length) {
-        const salIndex = budget.incomes.findIndex(income => income.category === 'salary')
-        budget.incomes.slice(salIndex, 1)
-    }
+    const incomesItems = budget.incomes.filter(inc => inc.category !== 'salary')
     
     return (
         <div>
-            {budget.incomes.length > 0 && budget.incomes.map(inc => {
+            {incomesItems.length > 0 && incomesItems.map(inc => {   
              let percentage = 0   
              const expense = budget.expenses.find(exp => exp.category === inc.category)  
              if (expense) percentage = Math.round((expense.cost/inc.cost) * 100)
