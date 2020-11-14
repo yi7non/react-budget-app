@@ -9,8 +9,8 @@ type Income {
     cost: Float!
   }
   
-  type Expense {
-    bType: String!
-    category: ID! @id
-    cost: Float!
-  }
+type Expense {
+  bType: String!
+  category: ID! @id
+  cost: Float!
+}

@@ -13,7 +13,7 @@ const gqlServer = new GraphQLServer({
     resolverValidationOptions: {
         requireResolversForResolveType: false
     },
-    context: req => {
+    context(req) {
         return {...req, prisma}
     }
 })
@@ -23,8 +23,4 @@ gqlServer.start({
         credentials: true,
         // origin: process.env.FRONTEND_URL
     }
-}, 
-    deets => {
-        console.log(`Yinon Server is now runnig on port http://localhost:${ deets.port }`);
-    }
-)
+}, deets => console.log(`Yinon Server is now runnig on port http://localhost:${ deets.port }`))

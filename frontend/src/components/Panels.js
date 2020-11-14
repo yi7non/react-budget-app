@@ -2,6 +2,12 @@ import React from 'react'
 import ProgressBar from './ProgressBar'
 
 const Panels = ({budget}) => {
+    // remove salary from budget-array
+    if (budget.incomes.length) {
+        const salIndex = budget.incomes.findIndex(income => income.category === 'salary')
+        budget.incomes.slice(salIndex, 1)
+    }
+    
     return (
         <div>
             {budget.incomes.length > 0 && budget.incomes.map(inc => {

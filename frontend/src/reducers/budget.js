@@ -12,6 +12,14 @@ export default (state, action) => {
                 expenses: state.expenses.map(expense => Object.assign({}, expense))
             }
             addState[property].push(action.budget)
+
+            // Calculation of salary remaining after current allocation
+            const salIndex = addState.incomes.findIndex(income => income.category === 'salary')
+            const sal = addState.incomes.slice(salIndex, 1)
+            const reduction = addState.incomes.reduce((accumulator, inc) => accumulator + inc.cost, 0)
+            addState.incomes.push(sal)
+            addState.incomes[addState.incomes.length - 1].cost -= reduction
+
             return addState
             
         case 'UPDATE_BUDGET':
