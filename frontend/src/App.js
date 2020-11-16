@@ -1,5 +1,5 @@
 import React, { useReducer, useEffect } from 'react'
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, gql } from '@apollo/client'
 import categoriesReducer from './reducers/categories'
 import budgetReducer from './reducers/budget'
 import Interface from './components/Interface'
@@ -18,23 +18,22 @@ const POPULATE_BUDGET = gql`
       cost
     }
   }
-`;
+`
 
 export const BudgetContext = React.createContext()
 export const CategoriesContext = React.createContext()
 
 function App() {
-  
   const [categories, dispatchCategories] = useReducer(categoriesReducer, [])
-  const [budget, dispatchBudget] = useReducer(budgetReducer, {incomes:[], expenses:[]})
+  const [budget, dispatchBudget] = useReducer(budgetReducer, { incomes: [], expenses: [] })
 
   useEffect(() => {
     const categories = JSON.parse(localStorage.getItem('categories'))
     if (categories) {
-      dispatchCategories({type: 'POPULATE_CATEGORIES', categories})
+      dispatchCategories({ type: 'POPULATE_CATEGORIES', categories })
     }
   }, [])
- 
+
   useEffect(() => {
     localStorage.setItem('categories', JSON.stringify(categories))
   }, [categories])
@@ -44,7 +43,7 @@ function App() {
   useEffect(() => {
     let dispatched = false
     if (!dispatched && data) {
-      dispatchBudget({type: 'POPULATE_BUDGET', budget: data})
+      dispatchBudget({ type: 'POPULATE_BUDGET', budget: data })
       dispatched = true
     }
   }, [data])
@@ -52,12 +51,12 @@ function App() {
   if (loading) return <p>Loading ...</p>
 
   return (
-    <BudgetContext.Provider value={{budget, dispatchBudget}}>
-    <CategoriesContext.Provider value={{categories, dispatchCategories}}>
-      <Interface/>
-      <Panels budget={budget} />
-    </CategoriesContext.Provider>
-    </BudgetContext.Provider> 
+    <BudgetContext.Provider value={{ budget, dispatchBudget }}>
+      <CategoriesContext.Provider value={{ categories, dispatchCategories }}>
+        <Interface />
+        <Panels budget={budget} />
+      </CategoriesContext.Provider>
+    </BudgetContext.Provider>
   )
 }
 
