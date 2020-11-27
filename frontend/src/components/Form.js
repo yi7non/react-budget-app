@@ -109,12 +109,24 @@ function Form() {
         budget: { bType, category, cost }
       })
 
-      updateIncome({
-        variables: {
-          data: { bType, cost },
-          where: { category }
-        }
-      })
+      if (property === 'incomes') {
+        updateIncome({
+          variables: {
+            data: { bType, cost },
+            where: { category }
+          }
+        })
+      } else {
+        //the createExpense resolver on gql backend handle both situation
+        // create expense and update expense, all logic for that exist in there
+        createExpense({
+          variables: {
+            data: { bType, category, cost }
+          }
+        })
+      }
+
+      // this else handle case of new budget
     } else {
       dispatchBudget({
         type: 'ADD_BUDGET',

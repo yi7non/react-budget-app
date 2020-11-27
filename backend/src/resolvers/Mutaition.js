@@ -1,10 +1,21 @@
 const Mutaition = {
+  // incomes resolvers
   createIncome(parent, args, { prisma }, info) {
     return prisma.mutation.createIncome({ data: args.data }, info)
   },
   updateIncome(parent, args, { prisma }, info) {
     return prisma.mutation.updateIncome({ data: args.data, where: args.where }, info)
   },
+  async deleteIncome(parent, args, { prisma }, info) {
+    const income = await prisma.mutation.deleteIncome({ where: args.where }, info)
+    const expense = await prisma.mutation.deleteExpense({ where: args.where }, info)
+
+    return {
+      ...income,
+      expense
+    }
+  },
+  // expenses resolvers
   async createExpense(parent, args, { prisma }, info) {
     const prevExpense = await prisma.query.expense(
       { where: { category: args.data.category } },
@@ -19,15 +30,6 @@ const Mutaition = {
     }
     // if there is no prevExpense
     return prisma.mutation.createExpense({ data: args.data }, info)
-  },
-  async deleteIncome(parent, args, { prisma }, info) {
-    const income = await prisma.mutation.deleteIncome({ where: args.where }, info)
-    const expense = await prisma.mutation.deleteExpense({ where: args.where }, info)
-
-    return {
-      ...income,
-      expense
-    }
   }
 }
 
