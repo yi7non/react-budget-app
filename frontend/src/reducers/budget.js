@@ -1,5 +1,5 @@
-import { salaryRemaining } from '../utility/utility.js'
 export default (state, action) => {
+  let salaryIndex
   switch (action.type) {
     case 'POPULATE_BUDGET':
       return action.budget
@@ -15,7 +15,8 @@ export default (state, action) => {
       if (action.budget.category === 'salary') return addState
 
       // Calculation of salary remaining after current allocation
-      salaryRemaining(addState.incomes)
+      salaryIndex = addState.incomes.findIndex(inc => inc.category === 'salary')
+      addState.incomes[salaryIndex].cost -= action.budget.cost
       return addState
 
     case 'UPDATE_BUDGET':
@@ -31,7 +32,11 @@ export default (state, action) => {
           ? action.budget.cost
           : parseInt(updateState[updateProperty][index].cost) + parseInt(action.budget.cost)
       // Calculation of salary remaining after current allocation
-      salaryRemaining(updateState.incomes)
+      if (updateProperty === 'incomes') {
+        salaryIndex = addState.incomes.findIndex(inc => inc.category === 'salary')
+        updateState.incomes[salaryIndex].cost += state.incomes[index].cost
+        updateState.incomes[salaryIndex].cost -= action.budget.cost
+      }
       return updateState
 
     case 'DELETE_BUDGET':
@@ -40,7 +45,8 @@ export default (state, action) => {
         expenses: state.expenses.filter(expense => expense.category !== action.budget)
       }
       // Calculation of salary remaining after current allocation
-      salaryRemaining(deleteState.incomes)
+      salaryIndex = deleteState.incomes.findIndex(inc => inc.category === 'salary')
+      deleteState.incomes[salaryIndex].cost += action.budget.cost
       return deleteState
 
     default:

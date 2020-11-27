@@ -17,6 +17,7 @@ const Mutaition = {
         where: { category: args.data.category }
       })
     }
+    // if there is no prevExpense
     return prisma.mutation.createExpense({ data: args.data }, info)
   },
   async deleteIncome(parent, args, { prisma }, info) {

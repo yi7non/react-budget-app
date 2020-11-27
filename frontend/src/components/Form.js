@@ -92,10 +92,17 @@ function Form() {
 
   const addBudget = e => {
     e.preventDefault()
+    const salaryexist = budget.incomes.some(inc => inc.category === 'salary')
+    if (!salaryexist) {
+      alert('יש להזין קודם משכורת🤑')
+      setCost('')
+      return
+    }
     category = category ? category : categoryRef.current.value
     const property = bType === 'תקציב' ? 'incomes' : 'expenses'
-    const budgetExist = budget[property].some(obj => obj.category === category)
-
+    const budgetExist = budget[property].some(prop => prop.category === category)
+    debugger
+    // if budget allredy exist run update else run add
     if (budgetExist) {
       dispatchBudget({
         type: 'UPDATE_BUDGET',

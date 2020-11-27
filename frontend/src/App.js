@@ -48,7 +48,7 @@ function App() {
     }
   }, [data])
 
-  if (loading) return <p>Loading ...</p>
+  if (loading) return <p style={{ fontSize: '40px' }}>Loading ...</p>
 
   return (
     <BudgetContext.Provider value={{ budget, dispatchBudget }}>
