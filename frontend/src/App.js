@@ -2,6 +2,7 @@ import React, { useReducer, useEffect } from 'react'
 import { useQuery, gql } from '@apollo/client'
 import categoriesReducer from './reducers/categories'
 import budgetReducer from './reducers/budget'
+import Salary from './components/Salary'
 import Interface from './components/Interface'
 import Panels from './components/Panels'
 
@@ -53,6 +54,7 @@ function App() {
   return (
     <BudgetContext.Provider value={{ budget, dispatchBudget }}>
       <CategoriesContext.Provider value={{ categories, dispatchCategories }}>
+        <Salary budget={budget} dispatchBudget={dispatchBudget} />
         <Interface />
         <Panels budget={budget} />
       </CategoriesContext.Provider>

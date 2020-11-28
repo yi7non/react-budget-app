@@ -33,16 +33,20 @@ export default (state, action) => {
           : parseInt(updateState[updateProperty][index].cost) + parseInt(action.budget.cost)
       // Calculation of salary remaining after current allocation
       if (updateProperty === 'incomes') {
-        salaryIndex = addState.incomes.findIndex(inc => inc.category === 'salary')
+        salaryIndex = updateState.incomes.findIndex(inc => inc.category === 'salary')
         updateState.incomes[salaryIndex].cost += state.incomes[index].cost
         updateState.incomes[salaryIndex].cost -= action.budget.cost
       }
       return updateState
 
     case 'DELETE_BUDGET':
-      const deleteState = {
-        incomes: state.incomes.filter(income => income.category !== action.budget),
-        expenses: state.expenses.filter(expense => expense.category !== action.budget)
+      let deleteState = {
+        incomes: state.incomes.map(income => Object.assign({}, income)),
+        expenses: state.expenses.map(expense => Object.assign({}, expense))
+      }
+      deleteState = {
+        incomes: deleteState.incomes.filter(income => income.category !== action.budget),
+        expenses: deleteState.expenses.filter(expense => expense.category !== action.budget)
       }
       // Calculation of salary remaining after current allocation
       salaryIndex = deleteState.incomes.findIndex(inc => inc.category === 'salary')

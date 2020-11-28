@@ -1,18 +1,35 @@
 # import * from 'generated/prisma.graphql'
 
 type Query {
-    me: String! 
-    income(where: IncomeWhereUniqueInput!): Income
-    expense(where: ExpenseWhereUniqueInput!): Expense
-    incomes(where: IncomeWhereInput, orderBy: IncomeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Income]!
-    expenses(where: ExpenseWhereInput, orderBy: ExpenseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Expense]!
+  me: String!
+  income(where: IncomeWhereUniqueInput!): Income
+  expense(where: ExpenseWhereUniqueInput!): Expense
+  incomes(
+    where: IncomeWhereInput
+    orderBy: IncomeOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Income]!
+  expenses(
+    where: ExpenseWhereInput
+    orderBy: ExpenseOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Expense]!
 }
 
 type Mutation {
-    createIncome(data: IncomeCreateInput!): Income!
-    updateIncome(data: IncomeUpdateInput!, where: IncomeWhereUniqueInput!): Income
-    updateExpense(data: ExpenseUpdateInput!, where: ExpenseWhereUniqueInput!): Expense
-    deleteIncome(where: IncomeWhereUniqueInput!): Income
-    createExpense(data: ExpenseCreateInput!): Expense!
-    deleteExpense(where: ExpenseWhereUniqueInput!): Expense
+  createIncome(data: IncomeCreateInput!): Income!
+  updateIncome(data: IncomeUpdateInput!, where: IncomeWhereUniqueInput!): Income
+  updateManyIncomes(data: IncomeUpdateManyMutationInput!, where: IncomeWhereInput): BatchPayload!
+  updateExpense(data: ExpenseUpdateInput!, where: ExpenseWhereUniqueInput!): Expense
+  deleteIncome(where: IncomeWhereUniqueInput!): Income
+  createExpense(data: ExpenseCreateInput!): Expense!
+  deleteExpense(where: ExpenseWhereUniqueInput!): Expense
 }

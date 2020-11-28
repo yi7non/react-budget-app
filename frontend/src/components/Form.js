@@ -92,16 +92,20 @@ function Form() {
 
   const addBudget = e => {
     e.preventDefault()
-    const salaryexist = budget.incomes.some(inc => inc.category === 'salary')
-    if (!salaryexist) {
+    const salaryIndex = budget.incomes.findIndex(inc => inc.category === 'salary')
+    if (salaryIndex < 0) {
       alert('יש להזין קודם משכורת🤑')
+      setCost('')
+      return
+    }
+    if (parseInt(budget.incomes[salaryIndex].cost) - parseInt(cost) < 0) {
+      alert('אין לך את הסכום הזה בחשבון')
       setCost('')
       return
     }
     category = category ? category : categoryRef.current.value
     const property = bType === 'תקציב' ? 'incomes' : 'expenses'
     const budgetExist = budget[property].some(prop => prop.category === category)
-    debugger
     // if budget allredy exist run update else run add
     if (budgetExist) {
       dispatchBudget({
@@ -134,9 +138,18 @@ function Form() {
       })
 
       if (property === 'incomes') {
+        debugger
         createIncome({
           variables: {
             data: { bType, category, cost }
+          }
+        })
+        // for update salary We need to deduct from the general salary the current income
+        const salaryDataUpdate = parseInt(budget.incomes[salaryIndex].cost) - parseInt(cost)
+        updateIncome({
+          variables: {
+            data: { cost: salaryDataUpdate },
+            where: { category: 'salary' }
           }
         })
       } else {

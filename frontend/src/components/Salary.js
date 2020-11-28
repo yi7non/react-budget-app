@@ -1,32 +1,20 @@
-import React, { useState, useEffect, useContext, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useMutation, gql } from '@apollo/client'
-import { BudgetContext } from '../App'
 import '../style/salary.css'
 
-// const ADD_INCOMES = gql`
-//   mutation createIncome($data: IncomeCreateInput!) {
-//     createIncome(data: $data) {
-//       bType
-//       category
-//       cost
-//     }
-//   }
-// `
-// const UPDATE_INCOMES = gql`
-//   mutation updateIncome($data: IncomeUpdateInput!, $where: IncomeWhereUniqueInput!) {
-//     updateIncome(data: $data, where: $where) {
-//       bType
-//       category
-//       cost
-//     }
-//   }
-// `
+const ADD_INCOMES = gql`
+  mutation createIncome($data: IncomeCreateInput!) {
+    createIncome(data: $data) {
+      bType
+      category
+      cost
+    }
+  }
+`
 
-function Salary() {
-  // const [createIncome] = useMutation(ADD_INCOMES)
-  // const [updateIncome] = useMutation(UPDATE_INCOMES)
+function Salary({ budget, dispatchBudget }) {
+  const [createIncome] = useMutation(ADD_INCOMES)
 
-  const { budget, dispatchBudget } = useContext(BudgetContext)
   const [salary, setSalary] = useState()
   const inputRef = useRef(null)
   const btnRef = useRef(null)
@@ -35,37 +23,37 @@ function Salary() {
     const salaryIndex = budget.incomes.findIndex(income => income.category === 'salary')
     if (budget.incomes[salaryIndex]) {
       setSalary(budget.incomes[salaryIndex].cost)
+      handleSalaryStyle()
     }
   }, [budget.incomes])
 
-  // useEffect(() => {
-  //   // updateIncome({
-  //   //   variables: {
-  //   //     data: { bType: 'תקציב', cost: salary },
-  //   //     where: { category: 'salary' }
-  //   //   }
-  //   // })
-  // }, [budget, salary, updateIncome])
-
-  const handleSubmit = e => {
-    e.preventDefault()
-    if (salary === 0) {
-      alert('יש להזין משכורת קודם 🤣🤣🤣')
-      return
-    }
+  const handleSalaryStyle = () => {
     inputRef.current.setAttribute('readonly', 'readonly')
     inputRef.current.style.fontSize = '24px'
     inputRef.current.style.textAlign = 'center'
     btnRef.current.style.display = 'none'
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault()
+
+    if (salary === 0) {
+      alert('יש להזין משכורת קודם 🤣🤣🤣')
+      return
+    }
+
+    handleSalaryStyle()
+
     dispatchBudget({
       type: 'ADD_BUDGET',
       budget: { bType: 'תקציב', category: 'salary', cost: salary }
     })
-    // createIncome({
-    //   variables: {
-    //     data: { bType: 'תקציב', category: 'salary', cost: salary }
-    //   }
-    // })
+
+    createIncome({
+      variables: {
+        data: { bType: 'תקציב', category: 'salary', cost: salary }
+      }
+    })
   }
 
   return (
