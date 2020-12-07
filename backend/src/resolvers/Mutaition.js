@@ -8,7 +8,11 @@ const Mutaition = {
   },
   async deleteIncome(parent, args, { prisma }, info) {
     const income = await prisma.mutation.deleteIncome({ where: args.where }, info)
-    const expense = await prisma.mutation.deleteExpense({ where: args.where }, info)
+    const expenseExist = await prisma.query.expense({ where: args.where }, '{cost}')
+    let expense = 'there is no expense'
+    if (expenseExist) {
+      expense = await prisma.mutation.deleteExpense({ where: args.where }, info)
+    }
 
     return {
       ...income,
