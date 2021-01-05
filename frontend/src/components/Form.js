@@ -49,11 +49,17 @@ const FormElement = styled.form`
     box-shadow: 0px -5px 7px 1px rgba(0, 0, 0, 0.2), 0px 8px 13px 1px rgba(0, 0, 0, 0.14),
       0px -3px 5px 2px rgba(0, 0, 0, 0.12);
   }
+  @media (max-width: 768px) {
+    padding: 0 10px;
+  }
 `
 const Input = styled.input`
   outline: none;
   height: 55%;
   width: 100px;
+  @media (max-width: 768px) {
+    width: 30%;
+  }
   text-align: left;
   font-size: 20px;
   font-family: 'Rubik', sans-serif;
@@ -73,6 +79,9 @@ export const Button = styled.button`
   transition: all 0.4s;
   &:hover {
     color: ${props => (props.bType === 'תקציב' ? 'lime' : 'red')};
+  }
+  @media (max-width: 768px) {
+    padding-right: 0;
   }
 `
 
@@ -138,7 +147,6 @@ function Form() {
       })
 
       if (property === 'incomes') {
-        debugger
         createIncome({
           variables: {
             data: { bType, category, cost }

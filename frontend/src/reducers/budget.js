@@ -53,7 +53,6 @@ export default (state, action) => {
       // Calculation of salary remaining after current allocation
       if (updateProperty === 'incomes') {
         salaryIndex = updateState.incomes.findIndex(inc => inc.category === 'salary')
-        debugger
         updateState.incomes[salaryIndex].cost += state.incomes[index].cost
         updateState.incomes[salaryIndex].cost -= action.budget.cost
       }
