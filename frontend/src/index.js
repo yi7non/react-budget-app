@@ -5,7 +5,8 @@ import App from './App'
 import * as serviceWorker from './serviceWorker'
 
 export const client = new ApolloClient({
-  uri: 'http://localhost:4000/',
+  // uri: 'http://localhost:4000/',
+  uri: 'nodejs',
   cache: new InMemoryCache()
 })
 
